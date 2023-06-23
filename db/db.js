@@ -18,6 +18,7 @@ if (process.env.DATABASE_URL) {
             password: process.env.DEV_DB_PASSWORD
         })
     } else {
+        console.log(`local database name ${localDbName}`)
         db = new pg.Pool({
             database: localDbName
         })

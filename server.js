@@ -1,5 +1,6 @@
 const express = require('express')
-require('dotenv').config();
+const dotenv = require('dotenv')
+dotenv.config()
 
 // you can replace this with a database:
 DB_URL = "dbname=transhealth_sa_db"
@@ -9,8 +10,8 @@ const logger = require('./middlewares/logger')
 const sessions = require('./middlewares/sessions')
 
 // controllers
-const docsController = require('./controllers/docs_controller')
-const usersConstroller = require('./controllers/users_controller')
+const doctorsController = require('./controllers/doctors_controller')
+const usersConstroller = require('./controllers/users_controller.js')
 const sessionsController = require('./controllers/sessions_controller')
 const reviewsController = require('./controllers/reviews_controller')
 
@@ -24,7 +25,9 @@ app.use(express.json())
 
 // routes
 app.use(logger)
-app.use('/api/docs', docsController)
+app.get('/api/doctors', (req, res) => {
+    res.json()
+})
 app.use('/api/reviews', reviewsController)
 app.use('/api/sessions', sessionsController)
 app.use('/api/users', usersConstroller)
