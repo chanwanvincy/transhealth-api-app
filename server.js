@@ -1,4 +1,5 @@
 const express = require('express')
+let app = express()
 const dotenv = require('dotenv')
 dotenv.config()
 
@@ -15,19 +16,25 @@ const usersConstroller = require('./controllers/users_controller.js')
 const sessionsController = require('./controllers/sessions_controller')
 const reviewsController = require('./controllers/reviews_controller')
 
-let app = express()
-
-const PORT = 3001
-app.listen(PORT, () => console.log(`server is listening here: http://localhost:${PORT}`))
+const port = process.env.PORT || 3001;
+app.listen(port, () => console.log(`server is listening here: http://localhost:${port}`))
 
 app.use(sessions)
 app.use(express.json())
 
 // routes
 app.use(logger)
-app.get('/api/doctors', (req, res) => {
-    res.json()
-})
+
+app.use('/api/doctors', doctorsController)
 app.use('/api/reviews', reviewsController)
 app.use('/api/sessions', sessionsController)
 app.use('/api/users', usersConstroller)
+
+if (process.env.NODE_ENV === 'production') {
+    const path = require('path')
+    app.use(express.static(path.join(__dirname, 'build')));
+
+    app.get('/*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    });
+}

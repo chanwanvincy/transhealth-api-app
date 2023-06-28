@@ -1,6 +1,4 @@
 
-console.log(process.env.EXPRESS_SESSION_SECRET_KEY)
-
 const session = require('express-session')
 
 module.exports = session({
